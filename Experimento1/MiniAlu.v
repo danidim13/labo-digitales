@@ -19,6 +19,7 @@ wire [3:0]  wOperation;
 reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination;
 wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
+wire signed [15:0] wSourceDataSigned0,wSourceDataSigned1;
 
 ROM InstructionRom 
 (
@@ -37,6 +38,8 @@ RAM_DUAL_READ_PORT DataRam
 	.oDataOut0(     wSourceData0 ),
 	.oDataOut1(     wSourceData1 )
 );
+assign wSourceDataSigned0 = wSourceData0;
+assign wSourceDataSigned1 = wSourceData1;
 
 assign wIPInitialValue = (Reset) ? 8'b0 : wDestination;
 UPCOUNTER_POSEDGE IP
@@ -126,6 +129,14 @@ begin
 		rBranchTaken <= 1'b0;
 		rWriteEnable <= 1'b1;
 		rResult      <= wSourceData1 - wSourceData0;
+	end
+	//-------------------------------------
+	`SMUL:
+	begin
+		rFFLedEN     <= 1'b0;
+		rBranchTaken <= 1'b0;
+		rWriteEnable <= 1'b1;
+		rResult      <= wSourceDataSigned1 * wSourceDataSigned0;
 	end
 	//-------------------------------------
 	`STO:

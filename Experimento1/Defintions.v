@@ -9,7 +9,8 @@
 `define STO   4'd4
 `define ADD   4'd5
 `define JMP   4'd6
-`define SUB   4'd7
+`define SUB   4'd7	// Resta
+`define SMUL   4'd8	// Multiplicacion con signo
 
 `define R0 8'd0
 `define R1 8'd1

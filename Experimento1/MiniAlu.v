@@ -18,7 +18,7 @@ wire [27:0] wInstruction;
 wire [3:0]  wOperation;
 reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination, wDestinationPrev;
-wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
+wire [15:0] wSourceData0,wSourceData1,wSourceData0_RAM,wSourceData1_RAM,wIPInitialValue,wImmediateValue;
 
 wire wHazard0, wHazard1, wWriteEnablePrev;
 wire [1:0] wInmediatePrev; 
@@ -37,8 +37,8 @@ RAM_DUAL_READ_PORT DataRam
 	.iReadAddress1( wInstruction[15:8] ),
 	.iWriteAddress( wDestination ),
 	.iDataIn(       rResult      ),
-	.oDataOut0(     wSourceData0 ),
-	.oDataOut1(     wSourceData1 )
+	.oDataOut0(     wSourceData0_RAM ),
+	.oDataOut1(     wSourceData1_RAM )
 );
 
 assign wIPInitialValue = (Reset) ? 8'b0 : wDestination;
@@ -125,6 +125,9 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE
 
 assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
 assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
+
+assign wSourceData0 = wHazar0 ? rResult : wSourceData0_RAM;
+assign wSourceData1 = wHazar1 ? rResult : wSourceData1_RAM;
 
 //                             //
 /////////////////////////////////

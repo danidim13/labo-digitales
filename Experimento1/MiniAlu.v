@@ -17,11 +17,11 @@ reg         rWriteEnable,rBranchTaken;
 wire [27:0] wInstruction;
 wire [3:0]  wOperation;
 reg [15:0]   rResult;
-wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination;
+wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination, wDestinationPrev;
 wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
 
 wire wHazard0, wHazard1, wWriteEnablePrev;
-wire [1:0] wInmediatePrev, 
+wire [1:0] wInmediatePrev; 
 
 ROM InstructionRom 
 (
@@ -123,8 +123,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE
 );
 
 
-assign wHazard0 = ((wDesinationPrev == wSourceAddr0) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
-assign wHazard1 = ((wDesinationPrev == wSourceAddr1) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
+assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
+assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
 
 //                             //
 /////////////////////////////////

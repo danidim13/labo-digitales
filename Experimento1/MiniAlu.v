@@ -126,8 +126,8 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE
 assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
 assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
 
-assign wSourceData0 = wHazar0 ? rResult : wSourceData0_RAM;
-assign wSourceData1 = wHazar1 ? rResult : wSourceData1_RAM;
+assign wSourceData0 = wHazard0 ? rResult : wSourceData0_RAM;
+assign wSourceData1 = wHazard1 ? rResult : wSourceData1_RAM;
 
 //                             //
 /////////////////////////////////

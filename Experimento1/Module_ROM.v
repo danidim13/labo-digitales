@@ -30,6 +30,17 @@ begin
 	12: oInstruction = { `NOP ,24'd4000       }; 
 	13: oInstruction = { `SUB ,`R7,`R7,`R3    };
 	14: oInstruction = { `JMP ,  8'd2,16'b0   };
+	
+/*	0: oInstruction = { `NOP ,24'd4000    };
+	1: oInstruction = { `STO ,`R1, 16'h0002};
+	2: oInstruction = { `STO ,`R2, 16'h0005};
+	3: oInstruction = { `STO ,`R3, 16'h0000};
+	4: oInstruction = { `ADD ,`R3,`R1,`R2    }; 
+	5: oInstruction = { `ADD ,`R4,`R1,`R3    }; 
+	6: oInstruction = { `NOP ,24'd4000    };
+	7: oInstruction = { `NOP ,24'd4000    };
+	8: oInstruction = { `JMP ,  8'd7,16'b0   };*/
+	
 	default:
 		oInstruction = { `LED ,  24'b10101010 };		//NOP
 	endcase	

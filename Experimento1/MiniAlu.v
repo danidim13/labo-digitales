@@ -18,7 +18,7 @@ wire [27:0] wInstruction;
 wire [3:0]  wOperation;
 reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination, wDestinationPrev;
-wire [15:0] wSourceData0,wSourceData1,wSourceData0_RAM,wSourceData1_RAM,wIPInitialValue,wImmediateValue;
+wire [15:0] wSourceData0,wSourceData1,wSourceData0_RAM,wSourceData1_RAM,wResultPrev,wIPInitialValue,wImmediateValue;
 
 wire wHazard0, wHazard1, wWriteEnablePrev;
 wire [1:0] wInmediatePrev; 
@@ -41,6 +41,7 @@ RAM_DUAL_READ_PORT DataRam
 	.oDataOut1(     wSourceData1_RAM )
 );
 
+
 assign wIPInitialValue = (Reset) ? 8'b0 : wDestination;
 UPCOUNTER_POSEDGE IP
 (
@@ -52,7 +53,7 @@ UPCOUNTER_POSEDGE IP
 );
 assign wIP = (rBranchTaken) ? wIPInitialValue : wIP_temp;
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD1 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 ) FFD1 
 (
 	.Clock(Clock),
 	.Reset(Reset),
@@ -95,7 +96,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LEDS
 	.Clock(Clock),
 	.Reset(Reset),
 	.Enable( rFFLedEN ),
-	.D( wSourceData1 ),
+	.D( wSourceData1[7:0] ),
 	.Q( oLed    )
 );
 
@@ -113,6 +114,15 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD41
 	.Q(wDestinationPrev)
 );
 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 ) FFDRES
+(
+	.Clock(Clock),
+	.Reset(Reset),
+	.Enable(rWriteEnable),
+	.D(rResult),
+	.Q(wResultPrev)
+);
+
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE
 (
 	.Clock(Clock),
@@ -122,12 +132,11 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE
 	.Q( {wWriteEnablePrev, wInmediatePrev} )
 );
 
+assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~(wInmediatePrev[1] & wInmediatePrev[0])) ? 1'b1 : 1'b0;
+assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~(wInmediatePrev[1] & wInmediatePrev[0])) ? 1'b1 : 1'b0;
 
-assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
-assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~{wInmediatePrev[1] & wInmediatePrev[0]}) ? 1'b1 : 1'b0;
-
-assign wSourceData0 = wHazard0 ? rResult : wSourceData0_RAM;
-assign wSourceData1 = wHazard1 ? rResult : wSourceData1_RAM;
+assign wSourceData0 = (wHazard0) ? wResultPrev : wSourceData0_RAM;
+assign wSourceData1 = (wHazard1) ? wResultPrev : wSourceData1_RAM;
 
 //                             //
 /////////////////////////////////

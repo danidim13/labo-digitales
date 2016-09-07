@@ -20,8 +20,7 @@ reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination, wDestinationPrev; 
 wire [15:0] wSourceData0,wSourceData1,wSourceData0_RAM,wSourceData1_RAM,wResultPrev,wIPInitialValue,wImmediateValue; 
  
-wire wHazard0, wHazard1, wWriteEnablePrev; 
-wire [1:0] wInmediatePrev;  
+wire wHazard0, wHazard1, wWriteEnablePrev, wIsImmediate;
  
 ROM InstructionRom  
 ( 
@@ -123,17 +122,19 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 ) FFDRES
 	.Q(wResultPrev) 
 ); 
  
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 3 ) FFDWRITE 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 ) FFDWRITE 
 ( 
 	.Clock(Clock), 
 	.Reset(Reset), 
 	.Enable(1'b1), 
-	.D( {rWriteEnable,wOperation[3:2]} ), 
-	.Q( {wWriteEnablePrev, wInmediatePrev} ) 
+	.D( {rWriteEnable} ), 
+	.Q( {wWriteEnablePrev} ) 
 ); 
 
-assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~(wInmediatePrev[1] & wInmediatePrev[0])) ? 1'b1 : 1'b0; 
-assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~(wInmediatePrev[1] & wInmediatePrev[0])) ? 1'b1 : 1'b0; 
+assign wIsImmediate = wOperation[3] && wOperation[2];
+
+assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~wIsImmediate ) ? 1'b1 : 1'b0; 
+assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~wIsImmediate ) ? 1'b1 : 1'b0; 
 
 assign wSourceData0 = (wHazard0) ? wResultPrev : wSourceData0_RAM; 
 assign wSourceData1 = (wHazard1) ? wResultPrev : wSourceData1_RAM;

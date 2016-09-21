@@ -22,6 +22,7 @@ wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
 
 wire signed [15:0] wSignedData1, wSignedData0;
 reg signed [31:0] rResultMult;
+wire [31:0] wMultResult0;
 
 assign wSignedData0 = wSourceData0; 
 assign wSignedData1 = wSourceData1; 
@@ -105,6 +106,15 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LEDS
 assign wImmediateValue = {wSourceAddr1,wSourceAddr0};
 
 
+//////////////////////////////////
+//		MUL		//
+
+Mult16x16 MUL_LUT
+(
+ .A(wSourceData0),
+ .B(wSourceData1),
+ .Result(wMultResult0)
+);
 
 always @ ( * )
 begin
@@ -177,6 +187,15 @@ begin
 		rResult      <= 0;
 		rBranchTaken <= 1'b0;
 		rResultMult  <= wSignedData1*wSignedData0;
+	end
+	//-------------------------------------
+	`IMUL2:
+	begin
+		rFFLedEN     <= 1'b0;
+		rWriteEnable <= 1'b0;
+		rResult      <= 0;
+		rBranchTaken <= 1'b0;
+		rResultMult  <= wMultResult0;
 	end
 	//-------------------------------------
 	default:

@@ -1,18 +1,24 @@
 `timescale 1ns / 1ps
 `ifndef DEFINTIONS_V
 `define DEFINTIONS_V
-	
+
+// Cualquier operacion que use valores
+// inmediatos debe tener los 2 MSB en alto
+
+// Primeros dos bits en alto indican operacion
+// con datos inmediatos
+
 `default_nettype none	
-`define NOP   4'd0
-`define LED   4'd2
-`define BLE   4'd3
-`define STO   4'd4
-`define ADD   4'd5
-`define JMP   4'd6
-`define SUB   4'd7
-`define SMUL  4'd8
-`define IMUL  4'd9
-`define IMUL2 4'd10
+`define NOP   4'd0	// 0000
+`define LED   4'd2	// 0010
+`define BLE   4'd3	// 0011
+`define STO   4'd12	// 1100
+`define ADD   4'd5	// 0101
+`define JMP   4'd6	// 0110
+`define SUB   4'd7	// 0111
+`define SMUL  4'd8	// 1000
+`define IMUL  4'd9	// 1001
+`define IMUL2 4'd10	// 1010
 
 `define R0 8'd0
 `define R1 8'd1

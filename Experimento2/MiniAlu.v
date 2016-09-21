@@ -20,12 +20,21 @@ reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination;
 wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
 
+//////////////////////////
+// Señales del pipeline //
+wire [7:0] wDestinationPrev;
+wire [15:0] wSourceData0_RAM,wSourceData1_RAM,wResultPrev;
+wire wHazard0, wHazard1, wWriteEnablePrev, wIsImmediate;
+
+///////////////////////////////
+// Señales de multiplicacion //
 wire signed [15:0] wSignedData1, wSignedData0;
 reg signed [31:0] rResultMult;
 wire [31:0] wMultResult0;
 
 assign wSignedData0 = wSourceData0; 
 assign wSignedData1 = wSourceData1; 
+///////////////////////////////
 
 ROM InstructionRom 
 (
@@ -105,6 +114,46 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LEDS
 
 assign wImmediateValue = {wSourceAddr1,wSourceAddr0};
 
+///////////////////////////////// 
+// Data Hazards en el pipeline // 
+ 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD41 
+( 
+	.Clock(Clock), 
+	.Reset(Reset), 
+	.Enable(1'b1), 
+	.D(wDestination), 
+	.Q(wDestinationPrev) 
+);
+
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 ) FFDRES 
+( 
+	.Clock(Clock), 
+	.Reset(Reset), 
+	.Enable(rWriteEnable), 
+	.D(rResult), 
+	.Q(wResultPrev) 
+); 
+ 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 ) FFDWRITE 
+( 
+	.Clock(Clock), 
+	.Reset(Reset), 
+	.Enable(1'b1), 
+	.D( {rWriteEnable} ), 
+	.Q( {wWriteEnablePrev} ) 
+); 
+
+assign wIsImmediate = wOperation[3] && wOperation[2];
+
+assign wHazard0 = ((wDestinationPrev == wSourceAddr0) && wWriteEnablePrev && ~wIsImmediate ) ? 1'b1 : 1'b0; 
+assign wHazard1 = ((wDestinationPrev == wSourceAddr1) && wWriteEnablePrev && ~wIsImmediate ) ? 1'b1 : 1'b0; 
+
+assign wSourceData0 = (wHazard0) ? wResultPrev : wSourceData0_RAM; 
+assign wSourceData1 = (wHazard1) ? wResultPrev : wSourceData1_RAM;
+ 
+//                             // 
+///////////////////////////////// 
 
 //////////////////////////////////
 //		MUL		//

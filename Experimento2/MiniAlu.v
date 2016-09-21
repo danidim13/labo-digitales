@@ -50,13 +50,13 @@ UPCOUNTER_POSEDGE IP
 (
 .Clock(   Clock                ), 
 .Reset(   Reset | rBranchTaken ),
-.Initial( wIPInitialValue + 1  ),
+.Initial( wIPInitialValue + 16'd1  ),
 .Enable(  1'b1                 ),
 .Q(       wIP_temp             )
 );
 assign wIP = (rBranchTaken) ? wIPInitialValue : wIP_temp;
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FFD1 
+FFD_POSEDGE_SYNCRONOUS_RESET # ( 4 ) FFD1 
 (
 	.Clock(Clock),
 	.Reset(Reset),
@@ -99,7 +99,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 8 ) FF_LEDS
 	.Clock(Clock),
 	.Reset(Reset),
 	.Enable( rFFLedEN ),
-	.D( wSourceData1 ),
+	.D( wSourceData1[7:0] ),
 	.Q( oLed    )
 );
 
@@ -115,6 +115,9 @@ Mult16x16 MUL_LUT
  .B(wSourceData1),
  .Result(wMultResult0)
 );
+
+//				//
+//////////////////////////////////
 
 always @ ( * )
 begin

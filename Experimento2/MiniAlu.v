@@ -20,6 +20,12 @@ reg [15:0]   rResult;
 wire [7:0]  wSourceAddr0,wSourceAddr1,wDestination;
 wire [15:0] wSourceData0,wSourceData1,wIPInitialValue,wImmediateValue;
 
+wire signed [15:0] wSignedData1, wSignedData0;
+reg signed [31:0] rResultMult;
+
+assign wSignedData0 = wSourceData0; 
+assign wSignedData1 = wSourceData1; 
+
 ROM InstructionRom 
 (
 	.iAddress(     wIP          ),
@@ -162,6 +168,15 @@ begin
 		rWriteEnable <= 1'b0;
 		rResult      <= 0;
 		rBranchTaken <= 1'b0;
+	end
+	//-------------------------------------
+	`SMUL:
+	begin
+		rFFLedEN     <= 1'b0;
+		rWriteEnable <= 1'b0;
+		rResult      <= 0;
+		rBranchTaken <= 1'b0;
+		rResultMult  <= wSignedData1*wSignedData0;
 	end
 	//-------------------------------------
 	default:

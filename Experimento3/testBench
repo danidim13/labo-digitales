@@ -1,0 +1,62 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    08:41:00 09/21/2016 
+// Design Name: 
+// Module Name:    Testbench 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module TestbenchLCD;
+
+	// Inputs
+	reg Clock;
+	reg Reset;
+
+
+LCD lcd(
+.Clock(Clock),
+.Reset(Reset)
+    );	
+
+top prueba (
+.clk(Clock)
+ );
+	// Outputs
+	wire [7:0] oLed;
+
+	// Instantiate the Unit Under Test (UUT)	
+	always
+	begin
+		#1  Clock =  ! Clock;
+
+	end
+
+	initial begin
+		// Initialize Inputs
+		Clock = 0;
+		Reset = 0;
+
+		// Wait 100 ns for global reset to finish
+		#100;
+		Reset = 1;
+		#50
+		Reset = 0;
+        
+		// Add stimulus here
+
+	end
+  
+
+endmodule

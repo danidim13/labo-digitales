@@ -12,7 +12,7 @@ module VGA_Controller (
 	output reg oBlue
 );
 
-wire[9:0] wColumnCount, wRowCount,
+wire[9:0] wColumnCount, wRowCount;
 wire wColumnReset, wRowReset;
 
 assign wColumnReset = (wColumnCount == 10'd799);
@@ -24,7 +24,7 @@ UPCOUNTER_POSEDGE # ( 10 ) COLUMN_COUNTER
 	.Reset( wColumnReset ),
 	.Initial( 10'd0 ),
 	.Enable( 1'b1 ),
-	.Q( wColumnCount ),
+	.Q( wColumnCount )
 );
 
 UPCOUNTER_POSEDGE # ( 10 ) ROW_COUNTER 
@@ -33,7 +33,7 @@ UPCOUNTER_POSEDGE # ( 10 ) ROW_COUNTER
 	.Reset( wRowReset ),
 	.Initial( 10'd0 ),
 	.Enable( 1'b1 ),
-	.Q( wRowCount ),
+	.Q( wRowCount )
 );
 
 

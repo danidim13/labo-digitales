@@ -53,7 +53,7 @@ begin
 			else if (wColumnCount < 656)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
@@ -64,7 +64,7 @@ begin
 			else if (wColumnCount < 800)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 			
 		end
@@ -76,7 +76,7 @@ begin
 			if (wColumnCount < 656)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
@@ -87,7 +87,7 @@ begin
 			else if (wColumnCount < 800)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 		end
 
@@ -98,7 +98,7 @@ begin
 			if (wColumnCount < 656)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
@@ -109,7 +109,7 @@ begin
 			else if (wColumnCount < 800)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 		end
 
@@ -120,7 +120,7 @@ begin
 			if (wColumnCount < 656)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
@@ -131,11 +131,12 @@ begin
 			else if (wColumnCount < 800)
 			begin
 				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSyn <= 1;
+				oHorizontalSync <= 1;
 			end
 		end
 	end
-
+end
+endmodule
 
 
 

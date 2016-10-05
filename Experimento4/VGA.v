@@ -1,4 +1,4 @@
-`include "Definitions.v"
+`include "Defintions.v"
 `include "Collaterals.v"
 
 module VGA_Controller (
@@ -52,18 +52,18 @@ begin
 			end
 			else if (wColumnCount < 656)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSync <= 0;
 
 			end
 			else if (wColumnCount < 800)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 			
@@ -75,18 +75,18 @@ begin
 			oVerticalSync <= 1;
 			if (wColumnCount < 656)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSync <= 0;
 
 			end
 			else if (wColumnCount < 800)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 		end
@@ -97,18 +97,18 @@ begin
 			oVerticalSync <= 0;
 			if (wColumnCount < 656)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSync <= 0;
 
 			end
 			else if (wColumnCount < 800)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 		end
@@ -119,18 +119,18 @@ begin
 			oVerticalSync <= 1;
 			if (wColumnCount < 656)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 			else if (wColumnCount < 752) 
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSync <= 0;
 
 			end
 			else if (wColumnCount < 800)
 			begin
-				{oRed,oGreen,oBlue} <= `Black;
+				{oRed,oGreen,oBlue} <= `BLACK;
 				oHorizontalSyn <= 1;
 			end
 		end

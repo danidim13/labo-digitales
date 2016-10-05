@@ -27,5 +27,13 @@
 `define R6 8'd6
 `define R7 8'd7
 
+`define BLACK 	3'b000
+`define BLUE	3'b001
+`define GREEN	3'b010
+`define CYAN	3'b011
+`define RED	3'b100
+`define MAGENTA	3'b101
+`define YELLOW	3'b110
+`define WHITE 	3'b111
 
 `endif

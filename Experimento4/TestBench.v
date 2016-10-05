@@ -31,11 +31,24 @@ module TestBench;
 	// Outputs
 	wire [7:0] oLed;
 
+	wire wHS, wVS, vga_red, vga_green, vga_blue;
 	// Instantiate the Unit Under Test (UUT)
-	MiniAlu uut (
+	/*MiniAlu uut (
 		.Clock(Clock), 
 		.Reset(Reset), 
 		.oLed(oLed)
+	);*/
+
+	VGA_Controller vga (
+		.Clock(Clock),
+		.Enable(1'b1),
+		.Reset(Reset),
+		.iPixel(`RED),
+		.oHorizontalSync(wHS),
+		.oVerticalSync(wVS),
+		.oRed(vga_red),
+		.oGreen(vga_green),
+		.oBlue(vga_blue)
 	);
 	
 	always
@@ -59,7 +72,7 @@ module TestBench;
         
 		// Add stimulus here
 
-		#1000
+		#18000000
 		$finish;
 
 	end

@@ -4,6 +4,7 @@
 module VGA_Controller (
 	input wire Clock,
 	input wire Enable,
+	input wire Reset,
 	input wire[2:0] iPixel,
 	output reg oHorizontalSync,
 	output reg oVerticalSync,
@@ -21,7 +22,7 @@ assign wRowReset = (wRowReset == 10'd520);
 UPCOUNTER_POSEDGE # ( 10 ) COLUMN_COUNTER 
 (
 	.Clock( Clock ),
-	.Reset( wColumnReset ),
+	.Reset( wColumnReset | Reset ),
 	.Initial( 10'd0 ),
 	.Enable( 1'b1 ),
 	.Q( wColumnCount )
@@ -30,9 +31,9 @@ UPCOUNTER_POSEDGE # ( 10 ) COLUMN_COUNTER
 UPCOUNTER_POSEDGE # ( 10 ) ROW_COUNTER 
 (
 	.Clock( Clock ),
-	.Reset( wRowReset ),
+	.Reset( wRowReset | Reset ),
 	.Initial( 10'd0 ),
-	.Enable( 1'b1 ),
+	.Enable( wColumnReset ),
 	.Q( wRowCount )
 );
 

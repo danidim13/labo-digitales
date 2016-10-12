@@ -1,3 +1,6 @@
+`ifndef COLLATERALS
+`define COLLATERALS
+
 `timescale 1ns / 1ps
 //------------------------------------------------
 module UPCOUNTER_POSEDGE # (parameter SIZE=16)
@@ -50,4 +53,4 @@ endmodule
 
 //----------------------------------------------------------------------
 
-
+`endif

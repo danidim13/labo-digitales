@@ -11,6 +11,8 @@ module VGA_Controller (
 	output reg oRed,
 	output reg oGreen,
 	output reg oBlue
+	//output reg[9:0] oColumnCount,
+	//output reg[9:0] oRowCount
 );
 
 wire[9:0] wColumnCount, wRowCount;

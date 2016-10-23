@@ -12,20 +12,8 @@ module Bichillo
 	output wire VGA_BLUE
 );
 
-wire [1:0] wHalfClock;
-
-UPCOUNTER_POSEDGE # ( 2 ) HALF_CLOCK 
-(
-	.Clock( Clock ),
-	.Reset( Reset ),
-	.Initial( 2'd0 ),
-	.Enable( 1'b1 ),
-	.Q( wHalfClock )
-);
-
-
 VGA_Controller vga (
-	.Clock(wHalfClock[1]),
+	.Clock(Clock),
 	.Enable(1'b1),
 	.Reset(Reset),
 	.iPixel(`RED),

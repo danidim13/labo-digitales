@@ -121,6 +121,7 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 ) FFDRES
 	.D(rResult), 
 	.Q(wResultPrev) 
 ); 
+
  
 FFD_POSEDGE_SYNCRONOUS_RESET # ( 1 ) FFDWRITE 
 ( 
@@ -259,6 +260,19 @@ begin
 		rReturn      <= 1'b0;
 		rCall        <= 1'b0;
 	end 
+	`WRITE_ROM : 
+	begin
+	
+		if (row <= 200){ 
+
+		}else  if(row <= 400){
+
+		}else if (row <= 600) {
+
+		}else if(row <= 800) {}
+
+	end 
+	
 	//------------------------------------- 
 	default: 
 	begin 

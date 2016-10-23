@@ -17,6 +17,8 @@
 `define SUB   4'd7	// 0111
 `define CALL  4'd8	// 1000
 `define RET   4'd9	// 1001
+`define WROM  4'd10	// 1001
+
 
 `define R0 8'd0
 `define R1 8'd1

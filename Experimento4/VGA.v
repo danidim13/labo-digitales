@@ -6,26 +6,29 @@ module VGA_Controller (
 	input wire Enable,
 	input wire Reset,
 	input wire[2:0] iPixel,
-	output reg oHorizontalSync,
-	output reg oVerticalSync,
-	output reg oRed,
-	output reg oGreen,
-	output reg oBlue
+	output wire oHorizontalSync,
+	output wire oVerticalSync,
+	output wire oRed,
+	output wire oGreen,
+	output wire oBlue
 	//output reg[9:0] oColumnCount,
 	//output reg[9:0] oRowCount
 );
 
-wire[9:0] wColumnCount, wRowCount;
+wire[10:0] wColumnCount;
 wire wColumnReset, wRowReset;
+wire[9:0] wColumnCount_2, wRowCount;
 
-assign wColumnReset = (wColumnCount == 10'd799);
-assign wRowReset = (wRowReset == 10'd520);
+assign wColumnCount_2 = {wColumnCount[10:1]};
 
-UPCOUNTER_POSEDGE # ( 10 ) COLUMN_COUNTER 
+assign wColumnReset = (wColumnCount == 11'd1599);
+assign wRowReset = (wRowCount == 10'd524 && wColumnReset);
+
+UPCOUNTER_POSEDGE # ( 11 ) COLUMN_COUNTER 
 (
 	.Clock( Clock ),
 	.Reset( wColumnReset | Reset ),
-	.Initial( 10'd0 ),
+	.Initial( 11'd0 ),
 	.Enable( 1'b1 ),
 	.Q( wColumnCount )
 );
@@ -39,106 +42,35 @@ UPCOUNTER_POSEDGE # ( 10 ) ROW_COUNTER
 	.Q( wRowCount )
 );
 
+parameter H_VISIBLE_AREA 	= 640;
+parameter H_FRONT_PORCH 	= 16;
+parameter H_PULSE				= 96;
+parameter H_BACK_PORCH		= 48;
+parameter HORIZONTAL_LINE	= 800;
 
-always @(posedge Clock)
-begin
-	if (Enable)
-	begin
-		// Display Time Vertical
-		if (wRowCount < 480)
-		begin
-			oVerticalSync <= 1;
-			if (wColumnCount < 640)
-			begin
-				{oRed,oGreen,oBlue} <= iPixel;	
-				oHorizontalSync <= 1;
-			end
-			else if (wColumnCount < 656)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-			else if (wColumnCount < 752) 
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 0;
+parameter V_VISIBLE_AREA 	= 480;
+parameter V_FRONT_PORCH 	= 10;
+parameter V_PULSE				= 2;
+parameter V_BACK_PORCH		= 33;
+parameter VERTICAL_LINE		= 525;
 
-			end
-			else if (wColumnCount < 800)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-			
-		end
 
-		// Front Porch Vertical
-		else if (wRowCount < 490)
-		begin
-			oVerticalSync <= 1;
-			if (wColumnCount < 656)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-			else if (wColumnCount < 752) 
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 0;
+assign oHorizontalSync = 
+(
+		wColumnCount_2 >= (H_VISIBLE_AREA + H_FRONT_PORCH ) &&
+		wColumnCount_2 <= (H_VISIBLE_AREA + H_FRONT_PORCH + H_PULSE )
+) ? 1'b0 : 1'b1;
 
-			end
-			else if (wColumnCount < 800)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-		end
+assign oVerticalSync = 
+(
+		wRowCount >= (V_VISIBLE_AREA + V_FRONT_PORCH ) &&
+		wRowCount <= (V_VISIBLE_AREA + V_FRONT_PORCH + V_PULSE )
+) ? 1'b0 : 1'b1;
+	
+assign {oRed,oGreen,oBlue} = (wColumnCount_2 < H_VISIBLE_AREA && wRowCount < V_VISIBLE_AREA) ?
+ {iPixel} :	//display color
+ {`BLACK}; //black
 
-		// PW Vertical
-		else if (wRowCount < 492)
-		begin
-			oVerticalSync <= 0;
-			if (wColumnCount < 656)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-			else if (wColumnCount < 752) 
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 0;
-
-			end
-			else if (wColumnCount < 800)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-		end
-
-		// Back Porch Vertical
-		else if (wRowCount < 521)
-		begin
-			oVerticalSync <= 1;
-			if (wColumnCount < 656)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-			else if (wColumnCount < 752) 
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 0;
-
-			end
-			else if (wColumnCount < 800)
-			begin
-				{oRed,oGreen,oBlue} <= `BLACK;
-				oHorizontalSync <= 1;
-			end
-		end
-	end
-end
 endmodule
 
 

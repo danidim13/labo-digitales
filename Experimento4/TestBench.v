@@ -21,7 +21,7 @@
 // Additional Comments:
 // 
 ////////////////////////////////////////////////////////////////////////////////
-
+`include "Defintions.v"
 module TestBench;
 
 	// Inputs
@@ -38,18 +38,41 @@ module TestBench;
 		.Reset(Reset), 
 		.oLed(oLed)
 	);*/
+	Bichillo semiCLK(
+		.Clock(Clock),	
+		.Reset(Reset),
+		.VGA_HSYNC(wHS),
+		.VGA_VSYNC(wVS),
+		.VGA_RED(vga_red),
+		.VGA_GREEN(vga_green),
+		.VGA_BLUE(vga_blue)
+	);
+/*
+	RAM_SINGLE_READ_PORT # (3,24,640*480) VideoMemory
+	(
+	.Clock( Clock ),
+	.iWriteEnable( EnableALU ),
+	.iReadAddress(wHS*wVS+wHS ),
+	.iWriteAddress( ),
+	.iDataIn( ),
+	.oDataOut({oVGA_R,oVGA_G,oVGA_B})
+	);*/
 
-	VGA_Controller vga (
+
+
+/*	VGA_Controller vga (
 		.Clock(Clock),
 		.Enable(1'b1),
 		.Reset(Reset),
-		.iPixel(`RED),
+		.iPixel({oVGA_R,oVGA_G,oVGA_B}),
 		.oHorizontalSync(wHS),
 		.oVerticalSync(wVS),
 		.oRed(vga_red),
 		.oGreen(vga_green),
-		.oBlue(vga_blue)
-	);
+		.oBlue(vga_blue),
+		.oQHS (wHS)
+		.oQVS (wVS)
+	);*/
 	
 	always
 	begin

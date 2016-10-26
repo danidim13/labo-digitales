@@ -10,9 +10,9 @@ module VGA_Controller (
 	output wire oVerticalSync,
 	output wire oRed,
 	output wire oGreen,
-	output wire oBlue
-	//output reg[9:0] oColumnCount,
-	//output reg[9:0] oRowCount
+	output wire oBlue,
+	output wire[9:0] oColumnCount,
+	output wire[9:0] oRowCount
 );
 
 wire[10:0] wColumnCount;
@@ -23,6 +23,9 @@ assign wColumnCount_2 = {wColumnCount[10:1]};
 
 assign wColumnReset = (wColumnCount == 11'd1599);
 assign wRowReset = (wRowCount == 10'd524 && wColumnReset);
+
+assign oColumnCount = wColumnCount_2;
+assign oRowCount = wRowCount;
 
 UPCOUNTER_POSEDGE # ( 11 ) COLUMN_COUNTER 
 (

@@ -44,13 +44,13 @@ UPCOUNTER_POSEDGE # ( 10 ) ROW_COUNTER
 
 parameter H_VISIBLE_AREA 	= 640;
 parameter H_FRONT_PORCH 	= 16;
-parameter H_PULSE				= 96;
+parameter H_PULSE		= 96;
 parameter H_BACK_PORCH		= 48;
 parameter HORIZONTAL_LINE	= 800;
 
 parameter V_VISIBLE_AREA 	= 480;
 parameter V_FRONT_PORCH 	= 10;
-parameter V_PULSE				= 2;
+parameter V_PULSE		= 2;
 parameter V_BACK_PORCH		= 33;
 parameter VERTICAL_LINE		= 525;
 
@@ -72,6 +72,3 @@ assign {oRed,oGreen,oBlue} = (wColumnCount_2 < H_VISIBLE_AREA && wRowCount < V_V
  {`BLACK}; //black
 
 endmodule
-
-
-

@@ -8,8 +8,11 @@ module MiniAlu
  input wire Clock, 
  input wire Reset, 
  output wire [7:0] oLed 
- 
-  
+ output wire VGA_HSYNC,
+ output wire VGA_VSYNC,
+ output wire VGA_RED,
+ output wire VGA_GREEN,
+ output wire VGA_BLUE
 ); 
  
 wire [15:0]  wIP,wIP_temp,wIP_return; 
@@ -161,6 +164,26 @@ FFD_POSEDGE_SYNCRONOUS_RESET # ( 16 ) FF_RET
 //                             // 
 ///////////////////////////////// 
  
+//////////////////////////////
+// VGA Controler and Memory //
+
+VGA_Controller vga (
+	.Clock(Clock),
+	.Enable(1'b1),
+	.Reset(Reset),
+	.iPixel(`RED),
+	.oHorizontalSync(VGA_HSYNC),
+	.oVerticalSync(VGA_VSYNC),
+	.oRed(VGA_RED),
+	.oGreen(VGA_GREEN),
+	.oBlue(VGA_BLUE)
+);
+
+// Instanciar memoria aqui
+
+
+//                          //
+//////////////////////////////
  
 always @ ( * ) 
 begin 

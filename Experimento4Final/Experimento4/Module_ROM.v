@@ -41,7 +41,7 @@ begin
 // la memoria de video [R1 - R3], R2 debe ser 1
 		17: oInstruction = { `WVM , 8'd0,`R4,`R1};
 		18: oInstruction = { `ADD ,`R1,`R1,`R2}; 
-		19: oInstruction = { `BLE , 8'd19,`R1,`R3  };
+		19: oInstruction = { `BLE , 8'd17,`R1,`R3  };
 		20: oInstruction = { `RET , 24'd0 };
 		
 

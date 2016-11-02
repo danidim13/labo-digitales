@@ -26,7 +26,7 @@ wire wHazard0, wHazard1, wWriteEnablePrev, wIsImmediate,wPushAddr;
 wire [9:0] wColumnCount;
 wire [9:0] wRowCount; 
 wire [2:0] wColorToMemory,iPixel;
-wire wVGA_HSYNC, wVGA_VSYNC;
+// wire wVGA_HSYNC, wVGA_VSYNC;
 
 ROM InstructionRom  
 ( 
@@ -178,8 +178,8 @@ VGA_Controller vga (
 	.Enable(1'b1),
 	.Reset(Reset),
 	.iPixel(iPixel),
-	.oHorizontalSync(wVGA_HSYNC),
-	.oVerticalSync(wVGA_VSYNC),
+	.oHorizontalSync(VGA_HSYNC),
+	.oVerticalSync(VGA_VSYNC),
 	.oRed(VGA_RED),
 	.oGreen(VGA_GREEN),
 	.oBlue(VGA_BLUE),
@@ -188,14 +188,7 @@ VGA_Controller vga (
 );
 // Instanciar memoria aqui
 
-FFD_POSEDGE_SYNCRONOUS_RESET # ( 2 ) FF_VGA_TIMING 
-( 
-	.Clock(Clock), 
-	.Reset(Reset), 
-	.Enable(1'b1), 
-	.D( wIP_temp ), 
-	.Q( {VGA_HSYNC,VGA_VSYNC} ) 
-); 
+
 
 RAM_SINGLE_READ_PORT # (3,10,1023) VideoMemory
 (

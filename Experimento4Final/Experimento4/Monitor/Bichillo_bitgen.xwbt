@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\Users\yoe\Desktop\Experimento4\Monitor\Bichillo.ncd
+OUTFILE=C:\Users\yoe\Desktop\Experimento4\Monitor\Bichillo.bit
+FAMILY=Spartan3E
+PART=xc3s500e-4fg320
+WORKINGDIR=C:\Users\yoe\Desktop\Experimento4\Monitor
+LICENSE=WebPack
+USER_INFO=211227840_0_0_358

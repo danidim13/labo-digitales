@@ -1,0 +1,32 @@
+Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -o C:/Users/yoe/Desktop/Experimento4/Monitor/TestBench_isim_beh.exe -prj C:/Users/yoe/Desktop/Experimento4/Monitor/TestBench_beh.prj work.TestBench work.glbl 
+ISim P.20131013 (signature 0x7708f090)
+Number of CPUs detected in this system: 8
+Turning on mult-threading, number of parallel sub-compilation jobs: 16 
+Determining compilation order of HDL files
+Analyzing Verilog file "C:/Users/yoe/Desktop/Experimento4/Monitor/../VGA.v" into library work
+Analyzing Verilog file "C:/Users/yoe/Desktop/Experimento4/Monitor/../RAM.v" into library work
+Analyzing Verilog file "C:/Users/yoe/Desktop/Experimento4/Monitor/../Module_ROM.v" into library work
+Analyzing Verilog file "C:/Users/yoe/Desktop/Experimento4/Monitor/../MiniAlu.v" into library work
+Analyzing Verilog file "C:/Users/yoe/Desktop/Experimento4/Monitor/../TestBench.v" into library work
+Analyzing Verilog file "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Starting static elaboration
+Completed static elaboration
+Compiling module ROM
+Compiling module RAM_DUAL_READ_PORT
+Compiling module UPCOUNTER_POSEDGE
+Compiling module FFD_POSEDGE_SYNCRONOUS_RESET(SIZ...
+Compiling module FFD_POSEDGE_SYNCRONOUS_RESET
+Compiling module FFD_POSEDGE_SYNCRONOUS_RESET(SIZ...
+Compiling module FFD_POSEDGE_SYNCRONOUS_RESET(SIZ...
+Compiling module UPCOUNTER_POSEDGE(SIZE=11)
+Compiling module UPCOUNTER_POSEDGE(SIZE=10)
+Compiling module VGA_Controller
+Compiling module RAM_SINGLE_READ_PORT(DATA_WIDTH=...
+Compiling module MiniAlu
+Compiling module TestBench
+Compiling module glbl
+Time Resolution for simulation is 1ps.
+Compiled 14 Verilog Units
+Built simulation executable C:/Users/yoe/Desktop/Experimento4/Monitor/TestBench_isim_beh.exe
+Fuse Memory Usage: 28660 KB
+Fuse CPU Usage: 749 ms
